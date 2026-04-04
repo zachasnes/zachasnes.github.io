@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zach Asnes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f2ee;
+      --accent: #c8ff00;
+      --gray: #1a1a1a;
+      --gray-mid: #2a2a2a;
+      --gray-light: #888;
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    .cursor {
+      width: 12px;
+      height: 12px;
+      background: var(--accent);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform 0.15s ease;
+      mix-blend-mode: difference;
+    }
+
+    .cursor-ring {
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--accent);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      transition: all 0.08s ease;
+      opacity: 0.5;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 4rem;
+      mix-blend-mode: difference;
+    }
+
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray-light);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 4rem 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: var(--font-display);
+      font-size: clamp(120px, 20vw, 280px);
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255, 255, 255, 0.04);
+      white-space: nowrap;
+      user-select: none;
+      pointer-events: none;
+      letter-spacing: 0.05em;
+    }
+
+    .hero-tag {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .hero-tag::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(72px, 12vw, 160px);
+      line-height: 0.9;
+      letter-spacing: 0.02em;
+      margin-bottom: 2rem;
+    }
+
+    .hero h1 span {
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--gray-light);
+      max-width: 560px;
+      line-height: 1.6;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      right: 4rem;
+      bottom: 6rem;
+      writing-mode: vertical-rl;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--gray-light);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .hero-scroll::after {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 60px;
+      background: var(--gray-light);
+      animation: scrollLine 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollLine {
+
+      0%,
+      100% {
+        opacity: 0.3;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+
+    section {
+      padding: 8rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 3rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--gray-mid);
+      max-width: 200px;
+    }
+
+    .big-text {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 8vw, 96px);
+      line-height: 1;
+      letter-spacing: 0.02em;
+      margin-bottom: 3rem;
+    }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--gray-mid);
+      border: 1px solid var(--gray-mid);
+    }
+
+    .story-card {
+      background: var(--black);
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+
+    .story-card:hover {
+      background: var(--gray);
+    }
+
+    .story-card::before {
+      content: attr(data-num);
+      position: absolute;
+      top: -20px;
+      right: 2rem;
+      font-family: var(--font-display);
+      font-size: 120px;
+      color: rgba(200, 255, 0, 0.04);
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .story-year {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .story-card h3 {
+      font-family: var(--font-display);
+      font-size: 32px;
+      letter-spacing: 0.03em;
+      margin-bottom: 1rem;
+      line-height: 1;
+    }
+
+    .story-card p {
+      font-size: 15px;
+      color: var(--gray-light);
+      line-height: 1.7;
+    }
+
+    .now-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--gray-mid);
+      border: 1px solid var(--gray-mid);
+      margin-bottom: 4rem;
+    }
+
+    .now-stat {
+      background: var(--black);
+      padding: 3rem 2.5rem;
+      transition: background 0.3s;
+    }
+
+    .now-stat:hover {
+      background: var(--gray);
+    }
+
+    .now-stat-num {
+      font-family: var(--font-display);
+      font-size: 72px;
+      line-height: 1;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .now-stat-label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      color: var(--gray-light);
+      text-transform: uppercase;
+    }
+
+    .project-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: var(--gray-mid);
+      border: 1px solid var(--gray-mid);
+    }
+
+    .project-item {
+      background: var(--black);
+      padding: 2.5rem 3rem;
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      align-items: center;
+      gap: 2rem;
+      transition: background 0.3s;
+    }
+
+    .project-item:hover {
+      background: var(--gray);
+    }
+
+    .project-num {
+      font-family: var(--font-display);
+      font-size: 48px;
+      color: var(--gray-mid);
+      line-height: 1;
+      transition: color 0.3s;
+    }
+
+    .project-item:hover .project-num {
+      color: var(--accent);
+    }
+
+    .project-name {
+      font-family: var(--font-display);
+      font-size: 36px;
+      letter-spacing: 0.02em;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-desc {
+      font-size: 14px;
+      color: var(--gray-light);
+    }
+
+    .project-tags {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: flex-end;
+    }
+
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border: 1px solid var(--gray-mid);
+      color: var(--gray-light);
+    }
+
+    .tag.accent {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--gray-mid);
+      border: 1px solid var(--gray-mid);
+    }
+
+    .stack-item {
+      background: var(--black);
+      padding: 2rem;
+      transition: background 0.3s;
+    }
+
+    .stack-item:hover {
+      background: var(--gray);
+    }
+
+    .stack-category {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .stack-tools {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .stack-tool {
+      font-size: 14px;
+      color: var(--gray-light);
+    }
+
+    .outside-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1px;
+      background: var(--gray-mid);
+      border: 1px solid var(--gray-mid);
+    }
+
+    .outside-item {
+      background: var(--black);
+      padding: 2rem 1.5rem;
+      transition: background 0.3s;
+      text-align: center;
+    }
+
+    .outside-item:hover {
+      background: var(--gray);
+    }
+
+    .outside-icon {
+      font-family: var(--font-display);
+      font-size: 36px;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .outside-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray-light);
+    }
+
+    .contact-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--gray-mid);
+      border: 1px solid var(--gray-mid);
+    }
+
+    .contact-left {
+      background: var(--accent);
+      padding: 4rem;
+    }
+
+    .contact-left h2 {
+      font-family: var(--font-display);
+      font-size: 72px;
+      color: var(--black);
+      line-height: 0.9;
+      letter-spacing: 0.02em;
+      margin-bottom: 2rem;
+    }
+
+    .contact-left p {
+      font-size: 15px;
+      color: var(--black);
+      opacity: 0.7;
+      max-width: 300px;
+    }
+
+    .contact-right {
+      background: var(--black);
+      padding: 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      text-decoration: none;
+      color: var(--white);
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--gray-mid);
+      transition: color 0.2s;
+    }
+
+    .contact-link:hover {
+      color: var(--accent);
+    }
+
+    .contact-link-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gray-light);
+      width: 80px;
+      flex-shrink: 0;
+    }
+
+    .contact-link-value {
+      font-size: 15px;
+    }
+
+    footer {
+      border-top: 1px solid var(--gray-mid);
+      padding: 2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer p {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--gray-light);
+      letter-spacing: 0.1em;
+    }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--gray-mid);
+      margin: 0 4rem;
+    }
+
+    .pull-quote {
+      border-left: 2px solid var(--accent);
+      padding: 1.5rem 2rem;
+      margin: 3rem 0;
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        padding: 1.5rem 2rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding: 0 2rem 4rem;
+      }
+
+      section {
+        padding: 5rem 2rem;
+      }
+
+      .story-grid,
+      .now-grid,
+      .stack-grid,
+      .contact-block,
+      .outside-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .project-item {
+        grid-template-columns: 50px 1fr;
+      }
+
+      .project-tags {
+        display: none;
+      }
+
+      footer {
+        padding: 2rem;
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+
+      .divider {
+        margin: 0 2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <nav>
+    <a href="#" class="nav-logo">ZA_001</a>
+    <ul class="nav-links">
+      <li><a href="#story">Story</a></li>
+      <li><a href="#now">Now</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#stack">Stack</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-bg-text">BUILDER</div>
+    <div class="hero-tag">Solutions Consultant · MBA · Founder</div>
+    <h1>ZACH<br><span>ASNES</span></h1>
+    <p class="hero-sub">Started on the mound. Built a barbershop out of a dorm room. Taught myself to code. Now solving
+      enterprise problems at Google and building AI automation tools on the side. Austin, TX.</p>
+    <div class="hero-scroll">Scroll</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <section id="story">
+    <div class="section-label">The Journey</div>
+    <div class="big-text fade-up">FROM THE<br>MOUND TO<br>THE CLOUD</div>
+
+    <div class="story-grid">
+      <div class="story-card fade-up" data-num="01">
+        <div class="story-year">The Foundation</div>
+        <h3>D1 Baseball</h3>
+        <p>Grew up playing middle infield. Senior year of high school I picked up pitching — that arm got me to college.
+          Two years at junior college, Tommy John surgery, transferred to Florida Atlantic University. Four years of D1
+          baseball taught me one thing above everything else: outworking the room is a legitimate strategy.</p>
+      </div>
+      <div class="story-card fade-up" data-num="02">
+        <div class="story-year">The Side Hustle</div>
+        <h3>The Barbershop That Wasn't</h3>
+        <p>Taught myself to cut hair in high school from YouTube videos. Practiced on friends and family. By college I
+          had a full baseball team to work on — then coaches, the soccer team, football. Posted on Instagram. Joined a
+          fraternity specifically to build clientele. Then every other fraternity. Then other schools. By graduation I
+          had a full book of business. That's when business clicked for me.</p>
+      </div>
+      <div class="story-card fade-up" data-num="03">
+        <div class="story-year">Early Career</div>
+        <h3>Sales & The Pivot</h3>
+        <p>First job out of school was selling insurance and investments. Hated the product, loved what it taught me
+          about sales fundamentals. Taught myself to code on the side. Wanted to bridge sales and technology without
+          being stuck behind a screen. Landed my first tech sales role at Miro, then pivoted into Google.</p>
+      </div>
+      <div class="story-card fade-up" data-num="04">
+        <div class="story-year">Google</div>
+        <h3>Finding the Problem</h3>
+        <p>Started in business development and inside sales at Google. Found a passion for fixing internal
+          inefficiencies — specifically ones tied to revenue. Led the design and build of an internal tool equivalent to
+          hiring 27 full-time employees. Took a process from 48 hours to under 47 seconds. That's when I realized I'm a
+          problem solver first.</p>
+      </div>
+      <div class="story-card fade-up" data-num="05">
+        <div class="story-year">Now</div>
+        <h3>Solutions Consultant</h3>
+        <p>Pivoted into a Solutions Consultant role at Google working in the Telecom division. Helping carriers navigate
+          infrastructure modernization, data strategy, and AI adoption. Simultaneously enrolled at UT McCombs — ranked
+          top 6 MBA program in the US — to build the business foundation to match the technical one.</p>
+      </div>
+      <div class="story-card fade-up" data-num="06">
+        <div class="story-year">On the Side</div>
+        <h3>DemandForge</h3>
+        <p>Co-founded DemandForge — a B2B lead generation agency focused on helping professional service firms build
+          predictable outbound revenue. Built systems, ran campaigns, and delivered results for clients across multiple
+          verticals.</p>
+      </div>
+    </div>
+
+    <div class="pull-quote fade-up">
+      "I never wanted to just consult on technology. I wanted to build it, sell it, and understand every layer of how it
+      works."
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="now">
+    <div class="section-label">Right Now</div>
+
+    <div class="now-grid">
+      <div class="now-stat fade-up">
+        <div class="now-stat-num">SC</div>
+        <div class="now-stat-label">Solutions Consultant · Google</div>
+      </div>
+      <div class="now-stat fade-up">
+        <div class="now-stat-num">#6</div>
+        <div class="now-stat-label">McCombs MBA · US Ranking</div>
+      </div>
+      <div class="now-stat fade-up">
+        <div class="now-stat-num">2X</div>
+        <div class="now-stat-label">Co-founder · DemandForge</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="projects">
+    <div class="section-label">Projects</div>
+    <div class="big-text fade-up">THINGS<br>I'VE BUILT</div>
+
+    <div class="project-list">
+      <div class="project-item fade-up">
+        <div class="project-num">01</div>
+        <div>
+          <div class="project-name">Clio Agent</div>
+          <div class="project-desc">AI-powered legal document automation. Extracts structured data from attorney notes
+            using Claude API and auto-populates Florida Bar probate forms. Built for a real attorney, expanding to other
+            firms.</div>
+        </div>
+        <div class="project-tags">
+          <span class="tag accent">Live</span>
+          <span class="tag">Python</span>
+          <span class="tag">Claude API</span>
+        </div>
+      </div>
+      <div class="project-item fade-up">
+        <div class="project-num">02</div>
+        <div>
+          <div class="project-name">EagleVal</div>
+          <div class="project-desc">Flask web app for DCF and comparable company valuation analysis. Built to reinforce
+            MBA Valuations coursework. Hosted on GitHub.</div>
+        </div>
+        <div class="project-tags">
+          <span class="tag">Flask</span>
+          <span class="tag">Finance</span>
+          <span class="tag">Python</span>
+        </div>
+      </div>
+      <div class="project-item fade-up">
+        <div class="project-num">03</div>
+        <div>
+          <div class="project-name">Google Internal Tool</div>
+          <div class="project-desc">Led design and build of an internal automation tool equivalent to 27 FTE. Reduced a
+            48-hour process to under 47 seconds. Built while in a business development role — not an engineering one.
+          </div>
+        </div>
+        <div class="project-tags">
+          <span class="tag">Google</span>
+          <span class="tag">Automation</span>
+        </div>
+      </div>
+      <div class="project-item fade-up">
+        <div class="project-num">04</div>
+        <div>
+          <div class="project-name">DemandForge Middleware</div>
+          <div class="project-desc">Inbox-to-CRM routing system built in ~6 hours using Google Cloud Functions, Python,
+            and Gemini API. Replaced a $15k developer quote.</div>
+        </div>
+        <div class="project-tags">
+          <span class="tag">GCP</span>
+          <span class="tag">Gemini</span>
+          <span class="tag">Python</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="stack">
+    <div class="section-label">Stack</div>
+    <div class="big-text fade-up">TOOLS I<br>ACTUALLY USE</div>
+
+    <div class="stack-grid">
+      <div class="stack-item fade-up">
+        <div class="stack-category">Languages</div>
+        <div class="stack-tools">
+          <span class="stack-tool">Python</span>
+          <span class="stack-tool">SQL</span>
+          <span class="stack-tool">Bash</span>
+        </div>
+      </div>
+      <div class="stack-item fade-up">
+        <div class="stack-category">AI / Agents</div>
+        <div class="stack-tools">
+          <span class="stack-tool">Claude API</span>
+          <span class="stack-tool">Gemini API</span>
+          <span class="stack-tool">Antigravity</span>
+          <span class="stack-tool">CrewAI</span>
+        </div>
+      </div>
+      <div class="stack-item fade-up">
+        <div class="stack-category">Backend</div>
+        <div class="stack-tools">
+          <span class="stack-tool">FastAPI</span>
+          <span class="stack-tool">Flask</span>
+          <span class="stack-tool">Streamlit</span>
+          <span class="stack-tool">GCP Cloud Run</span>
+        </div>
+      </div>
+      <div class="stack-item fade-up">
+        <div class="stack-category">Infra & Tools</div>
+        <div class="stack-tools">
+          <span class="stack-tool">Google Cloud</span>
+          <span class="stack-tool">GitHub</span>
+          <span class="stack-tool">Railway</span>
+          <span class="stack-tool">ngrok</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 6rem;">
+      <div class="section-label">Outside the Screen</div>
+      <div class="outside-grid">
+        <div class="outside-item fade-up">
+          <span class="outside-icon">RUN</span>
+          <span class="outside-label">Running</span>
+        </div>
+        <div class="outside-item fade-up">
+          <span class="outside-icon">CUP</span>
+          <span class="outside-label">Coffee Shops</span>
+        </div>
+        <div class="outside-item fade-up">
+          <span class="outside-icon">FLY</span>
+          <span class="outside-label">Traveling</span>
+        </div>
+        <div class="outside-item fade-up">
+          <span class="outside-icon">BIKE</span>
+          <span class="outside-label">Biking</span>
+        </div>
+        <div class="outside-item fade-up">
+          <span class="outside-icon">EAT</span>
+          <span class="outside-label">Eating</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="contact" style="padding-bottom: 0;">
+    <div class="section-label">Contact</div>
+    <div class="contact-block fade-up">
+      <div class="contact-left">
+        <h2>LET'S<br>TALK</h2>
+        <p>Building something in the professional services space? Working on AI automation? Interested in consulting?
+          Always open to the right conversations.</p>
+      </div>
+      <div class="contact-right">
+        <a href="mailto:zachasnes@gmail.com" class="contact-link">
+          <span class="contact-link-label">Email</span>
+          <span class="contact-link-value">zachasnes@gmail.com</span>
+        </a>
+        <a href="https://linkedin.com/in/zachasnes" target="_blank" class="contact-link">
+          <span class="contact-link-label">LinkedIn</span>
+          <span class="contact-link-value">linkedin.com/in/zachasnes</span>
+        </a>
+        <a href="https://github.com/zachasnes" target="_blank" class="contact-link">
+          <span class="contact-link-label">GitHub</span>
+          <span class="contact-link-value">github.com/zachasnes</span>
+        </a>
+        <a href="https://demandforgehq.com" target="_blank" class="contact-link">
+          <span class="contact-link-label">Agency</span>
+          <span class="contact-link-value">demandforgehq.com</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Zach Asnes — Austin, TX</p>
+    <p>Built from scratch · 2026</p>
+  </footer>
+
+  <script>
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx - 6 + 'px';
+      cursor.style.top = my - 6 + 'px';
+    });
+
+    function animateRing() {
+      rx += (mx - rx - 18) * 0.12;
+      ry += (my - ry - 18) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    document.querySelectorAll('a, button, .project-item, .story-card, .now-stat, .stack-item, .outside-item').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.transform = 'scale(2.5)';
+        ring.style.transform = 'scale(1.5)';
+        ring.style.opacity = '0.2';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.transform = 'scale(1)';
+        ring.style.transform = 'scale(1)';
+        ring.style.opacity = '0.5';
+      });
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-up').forEach((el, i) => {
+      el.style.transitionDelay = (i % 4) * 0.1 + 's';
+      observer.observe(el);
+    });
+  </script>
+</body>
+
+</html>
