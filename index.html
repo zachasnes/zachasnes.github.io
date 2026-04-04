@@ -379,6 +379,14 @@
       color: var(--gray-light);
     }
 
+    .project-roi {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      margin-top: 0.5rem;
+    }
+
     .project-tags {
       display: flex;
       flex-direction: column;
@@ -458,14 +466,6 @@
       background: var(--gray);
     }
 
-    .outside-icon {
-      font-family: var(--font-display);
-      font-size: 36px;
-      color: var(--accent);
-      margin-bottom: 0.75rem;
-      display: block;
-    }
-
     .outside-label {
       font-family: var(--font-mono);
       font-size: 11px;
@@ -509,7 +509,6 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      gap: 0;
     }
 
     .contact-link {
@@ -571,17 +570,6 @@
       height: 1px;
       background: var(--gray-mid);
       margin: 0 4rem;
-    }
-
-    .pull-quote {
-      border-left: 2px solid var(--accent);
-      padding: 1.5rem 2rem;
-      margin: 3rem 0;
-      font-size: 22px;
-      font-weight: 300;
-      color: var(--white);
-      line-height: 1.5;
-      font-style: italic;
     }
 
     @media (max-width: 768px) {
@@ -651,8 +639,8 @@
     <div class="hero-bg-text">BUILDER</div>
     <div class="hero-tag">Solutions Consultant · MBA · Founder</div>
     <h1>ZACH<br><span>ASNES</span></h1>
-    <p class="hero-sub">Started on the mound. Built a barbershop out of a dorm room. Taught myself to code. Now solving
-      enterprise problems at Google and building AI automation tools on the side. Austin, TX.</p>
+    <p class="hero-sub">Pitched my way into college. Built a barbershop clientele from a dorm room. Taught myself to
+      code. Now I'm at Google and building on the side. Austin, TX.</p>
     <div class="hero-scroll">Scroll</div>
   </div>
 
@@ -667,38 +655,36 @@
         <div class="story-year">The Foundation</div>
         <h3>D1 Baseball</h3>
         <p>Grew up playing middle infield. Senior year of high school I picked up pitching — that arm got me to college.
-          Two years at junior college, Tommy John surgery, transferred to Florida Atlantic University. Four years of D1
-          baseball taught me one thing above everything else: outworking the room is a legitimate strategy.</p>
+          Two years at junior college, Tommy John surgery, transferred to Florida Atlantic University. Two years at
+          juco, two at FAU.</p>
       </div>
       <div class="story-card fade-up" data-num="02">
         <div class="story-year">The Side Hustle</div>
         <h3>The Barbershop That Wasn't</h3>
         <p>Taught myself to cut hair in high school from YouTube videos. Practiced on friends and family. By college I
-          had a full baseball team to work on — then coaches, the soccer team, football. Posted on Instagram. Joined a
-          fraternity specifically to build clientele. Then every other fraternity. Then other schools. By graduation I
-          had a full book of business. That's when business clicked for me.</p>
+          had a full baseball team to work on — then coaches, soccer, football. Joined a fraternity to build clientele.
+          Then every other fraternity. Then other schools. By graduation I had a full book of business.</p>
       </div>
       <div class="story-card fade-up" data-num="03">
         <div class="story-year">Early Career</div>
         <h3>Sales & The Pivot</h3>
         <p>First job out of school was selling insurance and investments. Hated the product, loved what it taught me
-          about sales fundamentals. Taught myself to code on the side. Wanted to bridge sales and technology without
-          being stuck behind a screen. Landed my first tech sales role at Miro, then pivoted into Google.</p>
+          about fundamentals. Taught myself to code on the side. Wanted to bridge sales and technology without being
+          stuck behind a screen. First tech role at Miro, then pivoted into Google.</p>
       </div>
       <div class="story-card fade-up" data-num="04">
         <div class="story-year">Google</div>
         <h3>Finding the Problem</h3>
-        <p>Started in business development and inside sales at Google. Found a passion for fixing internal
-          inefficiencies — specifically ones tied to revenue. Led the design and build of an internal tool equivalent to
-          hiring 27 full-time employees. Took a process from 48 hours to under 47 seconds. That's when I realized I'm a
-          problem solver first.</p>
+        <p>Started in business development and inside sales. Found a passion for fixing internal inefficiencies tied to
+          revenue. Led the design and build of an internal tool equivalent to 27 full-time employees. Took a process
+          from 48 hours to under 47 seconds.</p>
       </div>
       <div class="story-card fade-up" data-num="05">
         <div class="story-year">Now</div>
         <h3>Solutions Consultant</h3>
-        <p>Pivoted into a Solutions Consultant role at Google working in the Telecom division. Helping carriers navigate
-          infrastructure modernization, data strategy, and AI adoption. Simultaneously enrolled at UT McCombs — ranked
-          top 6 MBA program in the US — to build the business foundation to match the technical one.</p>
+        <p>Pivoted into a Solutions Consultant role working in the Telecom division. Helping carriers navigate
+          infrastructure modernization, data strategy, and AI adoption. Enrolled at UT McCombs — top 6 MBA program in
+          the US — to build the business foundation to match the technical one.</p>
       </div>
       <div class="story-card fade-up" data-num="06">
         <div class="story-year">On the Side</div>
@@ -708,18 +694,12 @@
           verticals.</p>
       </div>
     </div>
-
-    <div class="pull-quote fade-up">
-      "I never wanted to just consult on technology. I wanted to build it, sell it, and understand every layer of how it
-      works."
-    </div>
   </section>
 
   <div class="divider"></div>
 
   <section id="now">
     <div class="section-label">Right Now</div>
-
     <div class="now-grid">
       <div class="now-stat fade-up">
         <div class="now-stat-num">SC</div>
@@ -747,9 +727,9 @@
         <div class="project-num">01</div>
         <div>
           <div class="project-name">Clio Agent</div>
-          <div class="project-desc">AI-powered legal document automation. Extracts structured data from attorney notes
-            using Claude API and auto-populates Florida Bar probate forms. Built for a real attorney, expanding to other
-            firms.</div>
+          <div class="project-desc">AI document automation for a Florida probate attorney. Notes in, populated legal
+            forms out.</div>
+          <div class="project-roi">~$72,000/yr in recovered billable time per firm</div>
         </div>
         <div class="project-tags">
           <span class="tag accent">Live</span>
@@ -761,8 +741,8 @@
         <div class="project-num">02</div>
         <div>
           <div class="project-name">EagleVal</div>
-          <div class="project-desc">Flask web app for DCF and comparable company valuation analysis. Built to reinforce
-            MBA Valuations coursework. Hosted on GitHub.</div>
+          <div class="project-desc">Valuation tool built to support MBA coursework. DCF and comparable company analysis
+            in a browser.</div>
         </div>
         <div class="project-tags">
           <span class="tag">Flask</span>
@@ -774,9 +754,9 @@
         <div class="project-num">03</div>
         <div>
           <div class="project-name">Google Internal Tool</div>
-          <div class="project-desc">Led design and build of an internal automation tool equivalent to 27 FTE. Reduced a
-            48-hour process to under 47 seconds. Built while in a business development role — not an engineering one.
-          </div>
+          <div class="project-desc">Automation that replaced a 48-hour manual process. Built outside of an engineering
+            role.</div>
+          <div class="project-roi">$5.4M in equivalent annual labor · 48hrs → 47 seconds</div>
         </div>
         <div class="project-tags">
           <span class="tag">Google</span>
@@ -787,12 +767,12 @@
         <div class="project-num">04</div>
         <div>
           <div class="project-name">DemandForge Middleware</div>
-          <div class="project-desc">Inbox-to-CRM routing system built in ~6 hours using Google Cloud Functions, Python,
-            and Gemini API. Replaced a $15k developer quote.</div>
+          <div class="project-desc">Outbound routing system built in an afternoon. Replaced a five-figure developer
+            quote.</div>
+          <div class="project-roi">$15k build cost eliminated · $26k/yr in ongoing savings</div>
         </div>
         <div class="project-tags">
           <span class="tag">GCP</span>
-          <span class="tag">Gemini</span>
           <span class="tag">Python</span>
         </div>
       </div>
@@ -845,7 +825,7 @@
 
     <div style="margin-top: 6rem;">
       <div class="section-label">Outside the Screen</div>
-      <<div class="outside-grid">
+      <div class="outside-grid">
         <div class="outside-item fade-up">
           <span class="outside-label">Running</span>
         </div>
@@ -856,13 +836,12 @@
           <span class="outside-label">Traveling</span>
         </div>
         <div class="outside-item fade-up">
-          <span class="outside-label">Lifting</span>
+          <span class="outside-label">Biking</span>
         </div>
         <div class="outside-item fade-up">
-          <span class="outside-label">Trying New Foods</span>
+          <span class="outside-label">Eating</span>
         </div>
-    </div>
-    </div>
+      </div>
     </div>
   </section>
 
