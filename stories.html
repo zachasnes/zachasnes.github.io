@@ -19,27 +19,17 @@
 </head>
 
 <body>
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
-
   <nav class="site-nav">
     <a href="index.html" class="nav-logo">Zach Asnes</a>
     <ul class="nav-links">
-      <li><a href="stories.html" aria-current="page">Stories</a></li>
       <li><a href="trainings.html">Trainings</a></li>
-      <li><a href="about.html">About</a></li>
+      <li><a href="stories.html" aria-current="page">Stories</a></li>
     </ul>
   </nav>
 
   <section class="page-top" id="list-view">
-    <div class="section-label">Stories from the field</div>
     <div class="big-text">AI IN THE<br><span>REAL WORLD.</span></div>
-    <p class="lede">What actually happens when big companies roll out AI: the wins, the surprises and the lessons. Each story ends with the free training to do it yourself.</p>
-
-    <div class="refine" style="margin: 0 0 3rem">
-      <label><span class="visually-hidden">Role</span><select id="role"></select></label>
-      <label><span class="visually-hidden">Industry</span><select id="industry"></select></label>
-    </div>
+    <p class="lede">What actually happens when big companies roll out AI, and the free training to do it yourself.</p>
 
     <p class="status" id="status" aria-live="polite">Loading stories…</p>
     <div id="list"></div>
@@ -48,28 +38,20 @@
   <section class="page-top" id="reader-view" hidden></section>
 
   <footer>
-    <p>Zach Asnes — Austin, TX</p>
+    <p><a href="https://www.linkedin.com/in/zachary-asnes/" target="_blank" rel="noopener">Zach Asnes on LinkedIn ↗</a></p>
     <p>Views are my own and don't represent Google. Customers are kept anonymous.</p>
-    <p id="year"></p>
   </footer>
 
   <script src="assets/site.js"></script>
   <script src="assets/stories.js"></script>
   <script>
     (function () {
-      const { ROLES, INDUSTRIES, BASICS, labelFor, fillSelect } = SITE;
       const $ = (id) => document.getElementById(id);
       const statusEl = $("status"), list = $("list"), listView = $("list-view"), readerView = $("reader-view");
       let stories = [];
 
-      fillSelect($("role"), ROLES.filter((r) => r !== BASICS), "All roles");
-      fillSelect($("industry"), INDUSTRIES, "All industries");
-
       function renderList() {
-        const r = labelFor(ROLES, $("role").value), i = labelFor(INDUSTRIES, $("industry").value);
-        const shown = stories.filter((s) => (!r || s.roles.includes(r)) && (!i || s.industries.includes(i)));
-        list.replaceChildren(stories.length ? STORIES.grid(shown, "stories.html") : STORIES.empty());
-        statusEl.textContent = stories.length && !shown.length ? "No stories for that combo yet." : "";
+        list.replaceChildren(stories.length ? STORIES.grid(stories, "stories.html") : STORIES.empty());
       }
 
       function route() {
@@ -87,8 +69,6 @@
         }
       }
 
-      $("role").addEventListener("change", renderList);
-      $("industry").addEventListener("change", renderList);
       window.addEventListener("hashchange", route);
 
       SITE.loadStories()

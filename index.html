@@ -5,9 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zach Asnes · AI in the real world</title>
-  <meta name="description" content="Stories from rolling out AI at large enterprises, plus the best free AI training for your role. By Zach Asnes.">
+  <meta name="description" content="The best free AI course for your job, plus stories from real enterprise AI rollouts. By Zach Asnes.">
   <meta property="og:title" content="Zach Asnes · AI in the real world">
-  <meta property="og:description" content="Stories from rolling out AI at large enterprises, plus the best free AI training for your role.">
+  <meta property="og:description" content="The best free AI course for your job, plus stories from real enterprise AI rollouts.">
   <meta property="og:image" content="https://zachasnes.com/assets/og.png">
   <meta property="og:url" content="https://zachasnes.com/">
   <meta property="og:type" content="website">
@@ -19,36 +19,18 @@
 </head>
 
 <body>
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
-
   <nav class="site-nav">
     <a href="index.html" class="nav-logo">Zach Asnes</a>
     <ul class="nav-links">
-      <li><a href="stories.html">Stories</a></li>
       <li><a href="trainings.html">Trainings</a></li>
-      <li><a href="about.html">About</a></li>
+      <li><a href="stories.html">Stories</a></li>
     </ul>
   </nav>
 
-  <div class="hero">
-    <div class="hero-bg-text">IN THE FIELD</div>
-    <div class="hero-tag">Enterprise AI · Stories + free trainings</div>
-    <h1><span class="reveal">AI IN THE</span><br><span class="reveal d2 hl">REAL WORLD</span></h1>
-    <p class="hero-sub">I work with some of the largest companies in the country on adopting AI. Here I share what actually works, and point you to the free training to do it yourself.</p>
-    <div class="hero-actions">
-      <a class="btn" href="#trainings">Find your training</a>
-      <a class="btn ghost" href="#stories">Read the stories</a>
-    </div>
-  </div>
+  <section class="page-top">
+    <div class="big-text">FREE AI TRAINING<br><span>FOR YOUR JOB.</span></div>
 
-  <div class="divider"></div>
-
-  <section id="trainings">
-    <div class="section-label">Free AI Trainings</div>
-    <div class="big-text fade-up">FIND YOUR<br><span>#1 COURSE.</span></div>
-
-    <div class="picker fade-up" role="group" aria-label="Choose your role and industry">
+    <div class="picker" role="group" aria-label="Choose your role and industry">
       I'm in
       <label class="token"><span class="visually-hidden">Role</span><select id="role"></select></label>
       in
@@ -57,67 +39,18 @@
 
     <p class="status" id="t-status" aria-live="polite">Loading courses…</p>
     <div id="t-results"></div>
-    <a class="btn ghost see-all" id="see-all" href="trainings.html">See every free training →</a>
+    <a class="btn ghost see-all" id="see-all" href="trainings.html">See all free trainings →</a>
   </section>
 
-  <div class="divider"></div>
-
   <section id="stories">
-    <div class="section-label">Stories from the field</div>
-    <div class="big-text fade-up">LESSONS FROM<br><span>REAL ROLLOUTS.</span></div>
-    <p class="status" id="s-status" aria-live="polite"></p>
+    <div class="section-label">Stories from real AI rollouts</div>
     <div id="s-list"></div>
     <a class="btn ghost see-all" id="all-stories" href="stories.html" hidden>All stories →</a>
   </section>
 
-  <div class="divider"></div>
-
-  <section id="about">
-    <div class="section-label">Who's writing this</div>
-    <div class="now-grid">
-      <div class="now-stat fade-up">
-        <div class="now-stat-num">SC</div>
-        <div class="now-stat-label">Solutions Consultant · Google · Telecom</div>
-      </div>
-      <div class="now-stat fade-up">
-        <div class="now-stat-num">MBA</div>
-        <div class="now-stat-label">UT McCombs · Evening</div>
-      </div>
-      <div class="now-stat fade-up">
-        <div class="now-stat-num">BUILDER</div>
-        <div class="now-stat-label">AI tools shipped for real clients</div>
-      </div>
-    </div>
-    <a class="btn ghost" href="about.html">My full story →</a>
-  </section>
-
-  <div class="divider"></div>
-
-  <section id="contact" style="padding-bottom: 0;">
-    <div class="section-label">Contact</div>
-    <div class="cta-block fade-up">
-      <div class="cta-left">
-        <h2>LET'S<br>TALK</h2>
-        <p>Rolling out AI at your company? Have a story or a free course I should feature? Reach out.</p>
-      </div>
-      <div class="cta-right">
-        <a href="https://www.linkedin.com/in/zachary-asnes/" target="_blank" rel="noopener" class="cta-link">
-          <span class="mono">LinkedIn</span><span>Follow for new stories</span>
-        </a>
-        <a href="mailto:zachasnes@gmail.com" class="cta-link">
-          <span class="mono">Email</span><span>zachasnes@gmail.com</span>
-        </a>
-        <a href="https://github.com/zachasnes" target="_blank" rel="noopener" class="cta-link">
-          <span class="mono">GitHub</span><span>github.com/zachasnes</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
   <footer>
-    <p>Zach Asnes — Austin, TX</p>
+    <p><a href="https://www.linkedin.com/in/zachary-asnes/" target="_blank" rel="noopener">Zach Asnes on LinkedIn ↗</a></p>
     <p>Views are my own and don't represent Google.</p>
-    <p id="year"></p>
   </footer>
 
   <script src="assets/site.js"></script>
@@ -136,7 +69,6 @@
         if (state.role) p.set("role", state.role);
         if (state.industry) p.set("industry", state.industry);
         $("see-all").href = "trainings.html" + (p.toString() ? "?" + p : "");
-        $("see-all").textContent = p.toString() ? "See all my picks for you →" : "See every free training →";
       }
 
       TRAININGS.initPicker($("role"), $("industry"), state, update);

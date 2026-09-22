@@ -2,7 +2,7 @@
 // zachasnes.com: shared page logic
 //   - loads Trainings + Stories from public Google Sheets
 //   - ranks trainings for a role/industry ("your #1 pick")
-//   - custom cursor (mouse only) and scroll fade-ins
+//   - scroll fade-ins
 // Courses: the same Live sheet the TEMBA AI Club page reads.
 // Stories: add a row and set published = yes. No redeploy needed.
 // ============================================================
@@ -174,40 +174,8 @@ const SITE = (() => {
     statusEl.classList.add("is-error");
   }
 
-  // Cursor + fade-ins
+  // Scroll fade-ins (skipped automatically under reduced motion via CSS)
   function initChrome() {
-    const year = document.getElementById("year");
-    if (year) year.textContent = new Date().getFullYear();
-
-    const cursor = document.getElementById("cursor");
-    const ring = document.getElementById("cursorRing");
-    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    if (cursor && ring && finePointer) {
-      document.body.classList.add("has-cursor");
-      let mx = -100, my = -100, rx = -100, ry = -100;
-      document.addEventListener("mousemove", (e) => {
-        mx = e.clientX; my = e.clientY;
-        cursor.style.left = mx - 6 + "px";
-        cursor.style.top = my - 6 + "px";
-      });
-      // Keyboard users get the normal focus ring, so hide the custom cursor.
-      document.addEventListener("keydown", (e) => { if (e.key === "Tab") document.body.classList.remove("has-cursor"); });
-      document.addEventListener("mousedown", () => document.body.classList.add("has-cursor"));
-      (function animateRing() {
-        rx += (mx - rx - 18) * 0.12;
-        ry += (my - ry - 18) * 0.12;
-        ring.style.left = rx + "px";
-        ring.style.top = ry + "px";
-        requestAnimationFrame(animateRing);
-      })();
-      document.addEventListener("mouseover", (e) => {
-        const hot = e.target.closest("a, button, select, .story, .course, .top-pick");
-        cursor.style.transform = hot ? "scale(2.5)" : "scale(1)";
-        ring.style.transform = hot ? "scale(1.5)" : "scale(1)";
-        ring.style.opacity = hot ? "0.2" : "0.5";
-      });
-    }
-
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("visible"); observer.unobserve(e.target); } });
     }, { threshold: 0.1 });

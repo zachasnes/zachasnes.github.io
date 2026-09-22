@@ -19,22 +19,17 @@
 </head>
 
 <body>
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
-
   <nav class="site-nav">
     <a href="index.html" class="nav-logo">Zach Asnes</a>
     <ul class="nav-links">
-      <li><a href="stories.html">Stories</a></li>
       <li><a href="trainings.html" aria-current="page">Trainings</a></li>
-      <li><a href="about.html">About</a></li>
+      <li><a href="stories.html">Stories</a></li>
     </ul>
   </nav>
 
   <section class="page-top">
-    <div class="section-label">Free AI Trainings</div>
-    <div class="big-text">THE RIGHT COURSE<br><span>FOR YOUR JOB.</span></div>
-    <p class="lede">Every course here is fully free, with no trials and no paywalls, and I vet each one. Tell me what you do and I'll show you where to start.</p>
+    <div class="big-text">FREE AI TRAINING<br><span>FOR YOUR JOB.</span></div>
+    <p class="lede">Every course is 100% free. No trials, no paywalls.</p>
 
     <div class="picker" role="group" aria-label="Choose your role and industry">
       I'm in
@@ -43,24 +38,6 @@
       <label class="token"><span class="visually-hidden">Industry</span><select id="industry"></select></label><span class="picker-end">.</span>
     </div>
 
-    <div class="refine">
-      <label class="search"><span class="visually-hidden">Search courses</span>
-        <input type="search" id="q" placeholder="Search: Excel, prompting, agents…" autocomplete="off"></label>
-      <label><span class="visually-hidden">Level</span>
-        <select id="level">
-          <option value="">Any level</option>
-          <option value="beginner">Beginner</option>
-          <option value="intermediate">Intermediate</option>
-          <option value="advanced">Advanced</option>
-        </select></label>
-      <label><span class="visually-hidden">Length</span>
-        <select id="time">
-          <option value="">Any length</option>
-          <option value="short">Under 1 hour</option>
-          <option value="medium">1–5 hours</option>
-          <option value="long">5+ hours</option>
-        </select></label>
-    </div>
 
     <p class="status" id="status" aria-live="polite">Loading courses…</p>
     <div id="results"></div>
@@ -68,20 +45,18 @@
   </section>
 
   <footer>
-    <p>Zach Asnes — Austin, TX</p>
+    <p><a href="https://www.linkedin.com/in/zachary-asnes/" target="_blank" rel="noopener">Zach Asnes on LinkedIn ↗</a></p>
     <p>Views are my own and don't represent Google.</p>
-    <p id="year"></p>
   </footer>
 
   <script src="assets/site.js"></script>
   <script src="assets/trainings.js"></script>
   <script>
     (function () {
-      const { el, slug, labelFor, ROLES, INDUSTRIES, formatDate } = SITE;
+      const { el, labelFor, ROLES, INDUSTRIES, formatDate } = SITE;
       const params = new URLSearchParams(location.search);
       const state = {
         role: params.get("role") || "", industry: params.get("industry") || "",
-        level: params.get("level") || "", time: params.get("time") || "", q: params.get("q") || "",
       };
       const $ = (id) => document.getElementById(id);
       const statusEl = $("status"), results = $("results"), related = $("related");
@@ -114,13 +89,6 @@
       }
 
       TRAININGS.initPicker($("role"), $("industry"), state, update);
-      ["level", "time"].forEach((id) => {
-        $(id).value = state[id];
-        $(id).addEventListener("change", () => { state[id] = $(id).value; update(); });
-      });
-      $("q").value = state.q;
-      let t;
-      $("q").addEventListener("input", () => { clearTimeout(t); t = setTimeout(() => { state.q = $("q").value.trim(); update(); }, 150); });
 
       SITE.loadTrainings()
         .then((c) => { courses = c; statusEl.textContent = ""; update(); })
