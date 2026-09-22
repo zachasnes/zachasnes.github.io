@@ -177,7 +177,7 @@ const SITE = (() => {
   // ---------- Analytics (GoatCounter: cookieless, no banner needed) ----------
   // Set to your GoatCounter code, e.g. "zachasnes" for zachasnes.goatcounter.com.
   // Empty = analytics off (nothing is loaded or sent).
-  const GOATCOUNTER = "";
+  const GOATCOUNTER = "zachasnes";
 
   function loadAnalytics() {
     if (!GOATCOUNTER) return;
