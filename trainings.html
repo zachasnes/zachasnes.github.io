@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free AI Trainings · Zach Asnes</title>
+  <meta name="description" content="Pick your role and industry and get the best free, self-paced AI course for you. Curated by Zach Asnes.">
+  <meta property="og:title" content="Free AI Trainings: find the right course for your role">
+  <meta property="og:description" content="Pick your role and industry and get the best free AI course for you. No trials, no paywalls.">
+  <meta property="og:image" content="https://zachasnes.com/assets/og.png">
+  <meta property="og:url" content="https://zachasnes.com/trainings.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <nav class="site-nav">
+    <a href="index.html" class="nav-logo">Zach Asnes</a>
+    <ul class="nav-links">
+      <li><a href="stories.html">Stories</a></li>
+      <li><a href="trainings.html" aria-current="page">Trainings</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <section class="page-top">
+    <div class="section-label">Free AI Trainings</div>
+    <div class="big-text">THE RIGHT COURSE<br><span>FOR YOUR JOB.</span></div>
+    <p class="lede">Every course here is fully free, with no trials and no paywalls, and I vet each one. Tell me what you do and I'll show you where to start.</p>
+
+    <div class="picker" role="group" aria-label="Choose your role and industry">
+      I'm in
+      <label class="token"><span class="visually-hidden">Role</span><select id="role"></select></label>
+      in
+      <label class="token"><span class="visually-hidden">Industry</span><select id="industry"></select></label><span class="picker-end">.</span>
+    </div>
+
+    <div class="refine">
+      <label class="search"><span class="visually-hidden">Search courses</span>
+        <input type="search" id="q" placeholder="Search: Excel, prompting, agents…" autocomplete="off"></label>
+      <label><span class="visually-hidden">Level</span>
+        <select id="level">
+          <option value="">Any level</option>
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
+        </select></label>
+      <label><span class="visually-hidden">Length</span>
+        <select id="time">
+          <option value="">Any length</option>
+          <option value="short">Under 1 hour</option>
+          <option value="medium">1–5 hours</option>
+          <option value="long">5+ hours</option>
+        </select></label>
+    </div>
+
+    <p class="status" id="status" aria-live="polite">Loading courses…</p>
+    <div id="results"></div>
+    <div id="related"></div>
+  </section>
+
+  <footer>
+    <p>Zach Asnes — Austin, TX</p>
+    <p>Views are my own and don't represent Google.</p>
+    <p id="year"></p>
+  </footer>
+
+  <script src="assets/site.js"></script>
+  <script src="assets/trainings.js"></script>
+  <script>
+    (function () {
+      const { el, slug, labelFor, ROLES, INDUSTRIES, formatDate } = SITE;
+      const params = new URLSearchParams(location.search);
+      const state = {
+        role: params.get("role") || "", industry: params.get("industry") || "",
+        level: params.get("level") || "", time: params.get("time") || "", q: params.get("q") || "",
+      };
+      const $ = (id) => document.getElementById(id);
+      const statusEl = $("status"), results = $("results"), related = $("related");
+      let courses = [], stories = [];
+
+      function syncUrl() {
+        const p = new URLSearchParams();
+        Object.entries(state).forEach(([k, v]) => { if (v) p.set(k, v); });
+        history.replaceState(null, "", location.pathname + (p.toString() ? "?" + p : ""));
+      }
+
+      function renderRelated() {
+        related.replaceChildren();
+        const r = labelFor(ROLES, state.role), i = labelFor(INDUSTRIES, state.industry);
+        const hits = stories.filter((s) => (r && s.roles.includes(r)) || (i && s.industries.includes(i))).slice(0, 2);
+        if (!hits.length) return;
+        related.append(el("p", { class: "mono list-head" }, "Stories from the field"));
+        related.append(el("div", { class: "story-grid" }, hits.map((s, n) =>
+          el("a", { class: "story", href: "stories.html#" + s.slug, "data-num": String(n + 1).padStart(2, "0") },
+            el("span", { class: "mono date" }, formatDate(s.date)),
+            el("h3", {}, s.title), el("p", { class: "hook" }, s.hook),
+            el("span", { class: "mono read" }, "Read →")))));
+      }
+
+      function update() {
+        syncUrl();
+        if (!courses.length) return;
+        statusEl.textContent = TRAININGS.render(results, courses, state);
+        renderRelated();
+      }
+
+      TRAININGS.initPicker($("role"), $("industry"), state, update);
+      ["level", "time"].forEach((id) => {
+        $(id).value = state[id];
+        $(id).addEventListener("change", () => { state[id] = $(id).value; update(); });
+      });
+      $("q").value = state.q;
+      let t;
+      $("q").addEventListener("input", () => { clearTimeout(t); t = setTimeout(() => { state.q = $("q").value.trim(); update(); }, 150); });
+
+      SITE.loadTrainings()
+        .then((c) => { courses = c; statusEl.textContent = ""; update(); })
+        .catch((err) => SITE.showError(statusEl, "the course list", err));
+      // Related stories are optional; a failure here never blocks the courses.
+      SITE.loadStories().then((s) => { stories = s; renderRelated(); })
+        .catch((err) => console.warn("[zachasnes] stories unavailable:", err));
+    })();
+  </script>
+</body>
+
+</html>
