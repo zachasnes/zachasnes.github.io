@@ -15,7 +15,7 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/site.css?v=20260922e">
+  <link rel="stylesheet" href="assets/site.css?v=20260922f">
 </head>
 
 <body>
@@ -23,7 +23,7 @@
     <a href="index.html" class="nav-logo">Zach Asnes</a>
     <ul class="nav-links">
       <li><a href="trainings.html">Trainings</a></li>
-      <li><a href="stories.html">Stories</a></li>
+      <li id="nav-stories" hidden><a href="stories.html">Stories</a></li>
     </ul>
   </nav>
 
@@ -42,7 +42,7 @@
     <a class="btn ghost see-all" id="see-all" href="trainings.html">See all free trainings →</a>
   </section>
 
-  <section id="stories">
+  <section id="stories" hidden>
     <div class="section-label">Stories from real AI rollouts</div>
     <div id="s-list"></div>
     <a class="btn ghost see-all" id="all-stories" href="stories.html" hidden>All stories →</a>
@@ -53,9 +53,9 @@
     <p>Views are my own and don't represent Google.</p>
   </footer>
 
-  <script src="assets/site.js?v=20260922e"></script>
-  <script src="assets/trainings.js?v=20260922e"></script>
-  <script src="assets/stories.js?v=20260922e"></script>
+  <script src="assets/site.js?v=20260922f"></script>
+  <script src="assets/trainings.js?v=20260922f"></script>
+  <script src="assets/stories.js?v=20260922f"></script>
   <script>
     (function () {
       const $ = (id) => document.getElementById(id);
@@ -79,13 +79,12 @@
 
       SITE.loadStories()
         .then((stories) => {
-          $("s-list").replaceChildren(stories.length ? STORIES.grid(stories.slice(0, 3), "stories.html") : STORIES.empty());
+          if (!stories.length) return;
+          $("s-list").replaceChildren(STORIES.grid(stories.slice(0, 3), "stories.html"));
           $("all-stories").hidden = stories.length <= 3;
+          $("stories").hidden = false;
         })
-        .catch((err) => {
-          console.warn("[zachasnes] stories unavailable:", err);
-          $("s-list").replaceChildren(STORIES.empty());
-        });
+        .catch((err) => console.warn("[zachasnes] stories unavailable:", err));
     })();
   </script>
 </body>

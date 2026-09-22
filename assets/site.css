@@ -273,17 +273,6 @@ section { padding: 4rem 2rem; max-width: 1040px; margin: 0 auto; }
 .story .hook { color: var(--body); font-size: 15px; }
 .story .read { margin-top: auto; color: var(--accent); font-weight: 500; font-size: 14px; }
 
-.story-empty {
-  background: var(--surface);
-  border: 1px dashed var(--line);
-  border-radius: var(--radius);
-  padding: 2.5rem 2rem;
-  text-align: center;
-}
-
-.story-empty h3 { font-size: 22px; font-weight: 650; margin-bottom: 0.5rem; }
-.story-empty p { color: var(--muted); margin: 0 auto 1.5rem; max-width: 520px; }
-
 /* Full story view */
 .reader { max-width: 680px; margin: 0 auto; }
 .reader .back { display: inline-block; margin-bottom: 2rem; color: var(--muted); text-decoration: none; font-size: 14px; }

@@ -5,7 +5,6 @@
 
 const STORIES = (() => {
   const { el, slug, formatDate, readMinutes, BASICS } = SITE;
-  const LINKEDIN = "https://www.linkedin.com/in/zachary-asnes/";
 
   function card(s, i, hrefBase) {
     return el("a", { class: "story enter", href: hrefBase + "#" + s.slug, "data-num": String(i + 1).padStart(2, "0"), style: "animation-delay:" + i * 0.06 + "s" },
@@ -21,10 +20,7 @@ const STORIES = (() => {
   }
 
   function empty() {
-    return el("div", { class: "story-empty" },
-      el("h3", {}, "The first story drops soon."),
-      el("p", {}, "Real lessons from rolling out AI at large enterprises, with customers kept anonymous. Follow on LinkedIn to catch it first."),
-      el("a", { class: "btn", href: LINKEDIN, target: "_blank", rel: "noopener" }, "Follow on LinkedIn ↗"));
+    return el("p", { class: "status" }, "Stories are coming soon.");
   }
 
   // The link into the trainings finder for this story's audience.

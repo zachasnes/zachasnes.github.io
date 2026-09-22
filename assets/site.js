@@ -207,9 +207,19 @@ const SITE = (() => {
     if (t) track(t.dataset.track, t.dataset.trackTitle);
   });
 
+  // Show the "Stories" nav link only once a published story exists.
+  function revealStoriesNav() {
+    const link = document.getElementById("nav-stories");
+    if (!link) return;
+    loadStories()
+      .then((s) => { if (s.length) link.hidden = false; })
+      .catch((err) => console.warn("[zachasnes] stories check failed:", err));
+  }
+
   // Scroll fade-ins (skipped automatically under reduced motion via CSS)
   function initChrome() {
     loadAnalytics();
+    revealStoriesNav();
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("visible"); observer.unobserve(e.target); } });
     }, { threshold: 0.1 });
