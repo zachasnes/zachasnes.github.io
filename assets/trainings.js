@@ -16,7 +16,8 @@ const TRAININGS = (() => {
   }
 
   function topPickCard(c, eyebrow) {
-    return el("a", { class: "top-pick enter", href: c.url, target: "_blank", rel: "noopener" },
+    return el("a", { class: "top-pick enter", href: c.url, target: "_blank", rel: "noopener",
+      "data-track": "course-top/" + c.id, "data-track-title": "#1 pick: " + c.title },
       el("div", {},
         el("p", { class: "mono eyebrow" }, eyebrow),
         el("h3", {}, c.title),
@@ -26,7 +27,8 @@ const TRAININGS = (() => {
   }
 
   function courseRow(c, i) {
-    return el("a", { class: "course enter", href: c.url, target: "_blank", rel: "noopener", style: "animation-delay:" + Math.min(i, 8) * 0.04 + "s" },
+    return el("a", { class: "course enter", href: c.url, target: "_blank", rel: "noopener", style: "animation-delay:" + Math.min(i, 8) * 0.04 + "s",
+      "data-track": "course/" + c.id, "data-track-title": "Course: " + c.title },
       el("span", { class: "course-num" }, String(i + 2).padStart(2, "0")),
       el("div", {},
         el("div", { class: "course-name" }, c.title, " ↗"),
@@ -103,8 +105,10 @@ const TRAININGS = (() => {
     [roleSel, industrySel].forEach((s) => {
       fit(s);
       s.addEventListener("change", () => {
-        state[s === roleSel ? "role" : "industry"] = s.value;
+        const key = s === roleSel ? "role" : "industry";
+        state[key] = s.value;
         fit(s);
+        if (s.value) SITE.track("picker/" + key + "/" + s.value, "Picked " + key + ": " + s.options[s.selectedIndex].text);
         onChange(state);
       });
     });

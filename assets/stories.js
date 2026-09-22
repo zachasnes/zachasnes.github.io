@@ -45,7 +45,7 @@ const STORIES = (() => {
       s.hook ? el("p", { class: "hook" }, s.hook) : null,
       el("div", { class: "body" }, s.paragraphs.map((p) => el("p", {}, p))),
       el("div", { class: "actions" },
-        el("a", { class: "btn", href: trainingsLink(s) }, who ? "Top free trainings for " + who + " →" : "Find a free training for your role →"),
+        el("a", { class: "btn", href: trainingsLink(s), "data-track": "story-to-trainings/" + s.slug, "data-track-title": "Story to trainings: " + s.title }, who ? "Top free trainings for " + who + " →" : "Find a free training for your role →"),
         s.linkedin ? el("a", { class: "btn ghost", href: s.linkedin, target: "_blank", rel: "noopener" }, "Discuss on LinkedIn ↗") : null));
   }
 

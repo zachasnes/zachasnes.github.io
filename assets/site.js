@@ -174,8 +174,42 @@ const SITE = (() => {
     statusEl.classList.add("is-error");
   }
 
+  // ---------- Analytics (GoatCounter: cookieless, no banner needed) ----------
+  // Set to your GoatCounter code, e.g. "zachasnes" for zachasnes.goatcounter.com.
+  // Empty = analytics off (nothing is loaded or sent).
+  const GOATCOUNTER = "";
+
+  function loadAnalytics() {
+    if (!GOATCOUNTER) return;
+    const s = document.createElement("script");
+    s.async = true;
+    s.src = "https://gc.zgo.at/count.js";
+    s.dataset.goatcounter = "https://" + GOATCOUNTER + ".goatcounter.com/count";
+    s.onerror = () => console.warn("[zachasnes] analytics script failed to load");
+    document.head.append(s);
+  }
+
+  // Records a named event, e.g. track("course/hubspot-ai-for-sales").
+  // Never throws: analytics must not break the page.
+  function track(name, title) {
+    try {
+      if (window.goatcounter && window.goatcounter.count) {
+        window.goatcounter.count({ path: name, title: title || name, event: true });
+      }
+    } catch (e) {
+      console.warn("[zachasnes] analytics event failed:", name, e);
+    }
+  }
+
+  // Any element with data-track="event/name" is counted when clicked.
+  document.addEventListener("click", (e) => {
+    const t = e.target.closest("[data-track]");
+    if (t) track(t.dataset.track, t.dataset.trackTitle);
+  });
+
   // Scroll fade-ins (skipped automatically under reduced motion via CSS)
   function initChrome() {
+    loadAnalytics();
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("visible"); observer.unobserve(e.target); } });
     }, { threshold: 0.1 });
@@ -188,7 +222,7 @@ const SITE = (() => {
   document.addEventListener("DOMContentLoaded", initChrome);
 
   return {
-    ROLES, INDUSTRIES, BASICS, slug, labelFor, safeUrl, el, fillSelect, showError,
+    ROLES, INDUSTRIES, BASICS, slug, labelFor, safeUrl, el, fillSelect, showError, track,
     loadTrainings, loadStories, rank, formatHours, readMinutes, formatDate,
   };
 })();
