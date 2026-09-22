@@ -98,8 +98,8 @@ const TRAININGS = (() => {
     roleSel.value = state.role || "";
     industrySel.value = state.industry || "";
     // Size each select to its current text so the sentence reads naturally.
-    // Bebas Neue is condensed: ~0.42em per character.
-    const fit = (s) => { s.style.width = Math.max(2, s.options[s.selectedIndex].text.length * 0.42 + 0.3) + "em"; };
+    // Inter averages ~0.5em per character at this weight.
+    const fit = (s) => { s.style.width = Math.max(2, s.options[s.selectedIndex].text.length * 0.5 + 0.1) + "em"; };
     [roleSel, industrySel].forEach((s) => {
       fit(s);
       s.addEventListener("change", () => {
