@@ -1,0 +1,5 @@
+# If you find a security issue with zachasnes.com, please tell me.
+Contact: mailto:zachasnes@gmail.com
+Preferred-Languages: en
+Canonical: https://zachasnes.com/.well-known/security.txt
+Expires: 2027-09-22T00:00:00.000Z

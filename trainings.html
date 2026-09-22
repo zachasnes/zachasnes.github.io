@@ -3,6 +3,8 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://gc.zgo.at; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://zachasnes.goatcounter.com; connect-src https://docs.google.com https://zachasnes.goatcounter.com; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Free AI Trainings · Zach Asnes</title>
   <meta name="description" content="Pick your role and industry and get the best free, self-paced AI course for you. Curated by Zach Asnes.">
@@ -15,7 +17,7 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/site.css?v=20260922f">
+  <link rel="stylesheet" href="assets/site.css?v=20260922g">
 </head>
 
 <body>
@@ -46,58 +48,13 @@
 
   <footer>
     <p><a href="https://www.linkedin.com/in/zachary-asnes/" target="_blank" rel="noopener">Zach Asnes on LinkedIn ↗</a></p>
+    <p>No cookies. Anonymous visit counts only.</p>
     <p>Views are my own and don't represent Google.</p>
   </footer>
 
-  <script src="assets/site.js?v=20260922f"></script>
-  <script src="assets/trainings.js?v=20260922f"></script>
-  <script>
-    (function () {
-      const { el, labelFor, ROLES, INDUSTRIES, formatDate } = SITE;
-      const params = new URLSearchParams(location.search);
-      const state = {
-        role: params.get("role") || "", industry: params.get("industry") || "",
-      };
-      const $ = (id) => document.getElementById(id);
-      const statusEl = $("status"), results = $("results"), related = $("related");
-      let courses = [], stories = [];
-
-      function syncUrl() {
-        const p = new URLSearchParams();
-        Object.entries(state).forEach(([k, v]) => { if (v) p.set(k, v); });
-        history.replaceState(null, "", location.pathname + (p.toString() ? "?" + p : ""));
-      }
-
-      function renderRelated() {
-        related.replaceChildren();
-        const r = labelFor(ROLES, state.role), i = labelFor(INDUSTRIES, state.industry);
-        const hits = stories.filter((s) => (r && s.roles.includes(r)) || (i && s.industries.includes(i))).slice(0, 2);
-        if (!hits.length) return;
-        related.append(el("p", { class: "mono list-head" }, "Stories from the field"));
-        related.append(el("div", { class: "story-grid" }, hits.map((s, n) =>
-          el("a", { class: "story", href: "stories.html#" + s.slug, "data-num": String(n + 1).padStart(2, "0") },
-            el("span", { class: "mono date" }, formatDate(s.date)),
-            el("h3", {}, s.title), el("p", { class: "hook" }, s.hook),
-            el("span", { class: "mono read" }, "Read →")))));
-      }
-
-      function update() {
-        syncUrl();
-        if (!courses.length) return;
-        statusEl.textContent = TRAININGS.render(results, courses, state);
-        renderRelated();
-      }
-
-      TRAININGS.initPicker($("role"), $("industry"), state, update);
-
-      SITE.loadTrainings()
-        .then((c) => { courses = c; statusEl.textContent = ""; update(); })
-        .catch((err) => SITE.showError(statusEl, "the course list", err));
-      // Related stories are optional; a failure here never blocks the courses.
-      SITE.loadStories().then((s) => { stories = s; renderRelated(); })
-        .catch((err) => console.warn("[zachasnes] stories unavailable:", err));
-    })();
-  </script>
+  <script src="assets/site.js?v=20260922g"></script>
+  <script src="assets/trainings.js?v=20260922g"></script>
+  <script src="assets/page-trainings.js?v=20260922g"></script>
 </body>
 
 </html>

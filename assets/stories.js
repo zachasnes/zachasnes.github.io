@@ -7,7 +7,7 @@ const STORIES = (() => {
   const { el, slug, formatDate, readMinutes, BASICS } = SITE;
 
   function card(s, i, hrefBase) {
-    return el("a", { class: "story enter", href: hrefBase + "#" + s.slug, "data-num": String(i + 1).padStart(2, "0"), style: "animation-delay:" + i * 0.06 + "s" },
+    return el("a", { class: "story enter d" + Math.min(i, 8), href: hrefBase + "#" + s.slug, "data-num": String(i + 1).padStart(2, "0") },
       el("span", { class: "mono date" }, formatDate(s.date) + "  ·  " + readMinutes(s) + " min read"),
       el("h3", {}, s.title),
       el("p", { class: "hook" }, s.hook),
@@ -36,7 +36,7 @@ const STORIES = (() => {
     const who = [s.roles.find((r) => r !== BASICS), s.industries[0]].filter(Boolean).join(" · ");
     return el("article", { class: "reader enter" },
       el("a", { class: "mono back", href: "stories.html" }, "← All stories"),
-      el("p", { class: "mono date", style: "color:var(--accent)" }, formatDate(s.date) + "  ·  " + readMinutes(s) + " min read"),
+      el("p", { class: "mono date" }, formatDate(s.date) + "  ·  " + readMinutes(s) + " min read"),
       el("h1", {}, s.title),
       s.hook ? el("p", { class: "hook" }, s.hook) : null,
       el("div", { class: "body" }, s.paragraphs.map((p) => el("p", {}, p))),

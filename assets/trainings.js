@@ -27,7 +27,7 @@ const TRAININGS = (() => {
   }
 
   function courseRow(c, i) {
-    return el("a", { class: "course enter", href: c.url, target: "_blank", rel: "noopener", style: "animation-delay:" + Math.min(i, 8) * 0.04 + "s",
+    return el("a", { class: "course enter d" + Math.min(i, 8), href: c.url, target: "_blank", rel: "noopener",
       "data-track": "course/" + c.id, "data-track-title": "Course: " + c.title },
       el("span", { class: "course-num" }, String(i + 2).padStart(2, "0")),
       el("div", {},

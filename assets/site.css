@@ -305,6 +305,14 @@ footer a:hover { color: var(--text); }
 
 .enter { animation: enter 0.35s ease both; }
 @keyframes enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.enter.d1 { animation-delay: 0.05s; }
+.enter.d2 { animation-delay: 0.10s; }
+.enter.d3 { animation-delay: 0.15s; }
+.enter.d4 { animation-delay: 0.20s; }
+.enter.d5 { animation-delay: 0.25s; }
+.enter.d6 { animation-delay: 0.30s; }
+.enter.d7 { animation-delay: 0.35s; }
+.enter.d8 { animation-delay: 0.40s; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

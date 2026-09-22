@@ -3,6 +3,8 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://gc.zgo.at; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://zachasnes.goatcounter.com; connect-src https://docs.google.com https://zachasnes.goatcounter.com; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Stories · Zach Asnes</title>
   <meta name="description" content="Lessons from rolling out AI at large enterprises: what worked, what didn't, and how to do it yourself.">
@@ -15,7 +17,7 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/site.css?v=20260922f">
+  <link rel="stylesheet" href="assets/site.css?v=20260922g">
 </head>
 
 <body>
@@ -39,44 +41,13 @@
 
   <footer>
     <p><a href="https://www.linkedin.com/in/zachary-asnes/" target="_blank" rel="noopener">Zach Asnes on LinkedIn ↗</a></p>
+    <p>No cookies. Anonymous visit counts only.</p>
     <p>Views are my own and don't represent Google. Customers are kept anonymous.</p>
   </footer>
 
-  <script src="assets/site.js?v=20260922f"></script>
-  <script src="assets/stories.js?v=20260922f"></script>
-  <script>
-    (function () {
-      const $ = (id) => document.getElementById(id);
-      const statusEl = $("status"), list = $("list"), listView = $("list-view"), readerView = $("reader-view");
-      let stories = [];
-
-      function renderList() {
-        list.replaceChildren(stories.length ? STORIES.grid(stories, "stories.html") : STORIES.empty());
-      }
-
-      function route() {
-        const key = decodeURIComponent(location.hash.slice(1));
-        const story = key && stories.find((s) => s.slug === key);
-        listView.hidden = !!story;
-        readerView.hidden = !story;
-        if (story) {
-          readerView.replaceChildren(STORIES.reader(story));
-          SITE.track("story/" + story.slug, "Read story: " + story.title);
-          document.title = story.title + " · Zach Asnes";
-          window.scrollTo(0, 0);
-        } else {
-          document.title = "Stories · Zach Asnes";
-          renderList();
-        }
-      }
-
-      window.addEventListener("hashchange", route);
-
-      SITE.loadStories()
-        .then((s) => { stories = s; statusEl.textContent = ""; route(); })
-        .catch((err) => SITE.showError(statusEl, "stories", err));
-    })();
-  </script>
+  <script src="assets/site.js?v=20260922g"></script>
+  <script src="assets/stories.js?v=20260922g"></script>
+  <script src="assets/page-stories.js?v=20260922g"></script>
 </body>
 
 </html>
