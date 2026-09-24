@@ -73,6 +73,7 @@ const SITE = (() => {
         hours: isNaN(hours) ? null : hours,
         roles: splitList(r.roles), industries: splitList(r.industries),
         tasks: splitList(r.tasks), topPickFor: splitList(r.top_pick_for),
+        added: r.date_added,
       };
     }).filter((c) => c.title && c.url);
     if (!courses.length) throw new Error("Trainings sheet loaded but had no courses");
@@ -127,6 +128,8 @@ const SITE = (() => {
       if (industryLabel && c.industries.includes(industryLabel)) score += 20;
       const matched = score > 0;
       if (c.roles.includes(BASICS)) score += 5;
+      // Industry-specific courses rank below general ones unless that industry was picked.
+      if (c.industries.length && !c.industries.includes(industryLabel)) score -= 10;
       return { c, score, matched };
     });
     scored.sort((a, b) =>

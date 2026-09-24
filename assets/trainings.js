@@ -26,11 +26,13 @@ const TRAININGS = (() => {
       el("span", { class: "go", "aria-hidden": "true" }, "↗"));
   }
 
-  function courseRow(c, i) {
+  // step (optional) labels the row as part of an ordered path, e.g. "Step 2".
+  function courseRow(c, i, step) {
     return el("a", { class: "course enter d" + Math.min(i, 8), href: c.url, target: "_blank", rel: "noopener",
       "data-track": "course/" + c.id, "data-track-title": "Course: " + c.title },
       el("span", { class: "course-num" }, String(i + 2).padStart(2, "0")),
       el("div", {},
+        step ? el("div", { class: "mono step" }, "Step " + step) : null,
         el("div", { class: "course-name" }, c.title, " ↗"),
         el("div", { class: "course-desc" }, c.description),
         el("div", { class: "mono course-meta" }, courseMeta(c))),
@@ -71,7 +73,7 @@ const TRAININGS = (() => {
     if (who && matched.length) {
       [top, ...next] = matched;
       foundations = basics;
-      eyebrow = "Your #1 pick for " + who;
+      eyebrow = "Step 1 · Your #1 pick for " + who;
     } else if (who) {
       // Nothing specific yet: fall back to the general ranking, not a fake "#1 for X".
       [top, ...next] = rank(filtered, "", "").map((x) => x.c);
@@ -82,9 +84,16 @@ const TRAININGS = (() => {
 
     out.append(topPickCard(top, eyebrow));
     const limit = opts.limit ?? Infinity;
-    if (next.length) {
-      out.append(el("p", { class: "mono list-head" }, who && matched.length ? "Next up for " + who + " (" + next.length + ")" : "Also worth your time"));
-      out.append(el("div", { class: "course-list" }, next.slice(0, limit).map(courseRow)));
+    // A role/industry pick becomes a short ordered path: steps 1-4, then the rest.
+    const path = Boolean(who && matched.length);
+    const steps = next.slice(0, path ? 3 : limit), more = path ? next.slice(3) : [];
+    if (steps.length) {
+      out.append(el("p", { class: "mono list-head" }, path ? "Then, in this order" : "Also worth your time"));
+      out.append(el("div", { class: "course-list" }, steps.map((c, i) => courseRow(c, i, path ? i + 2 : null))));
+    }
+    if (more.length && limit === Infinity) {
+      out.append(el("p", { class: "mono list-head" }, "More for " + who + " (" + more.length + ")"));
+      out.append(el("div", { class: "course-list" }, more.map((c, i) => courseRow(c, i + 3))));
     }
     if (foundations.length && limit === Infinity) {
       out.append(el("p", { class: "mono list-head" }, "Foundations for any role (" + foundations.length + ")"));
@@ -114,5 +123,5 @@ const TRAININGS = (() => {
     });
   }
 
-  return { render, initPicker };
+  return { render, initPicker, courseRow };
 })();

@@ -14,10 +14,21 @@
     $("see-all").href = "trainings.html" + (p.toString() ? "?" + p : "");
   }
 
+  // "New this week": added in the last 7 days, and not part of the first
+  // batch (the earliest date_added), so the launch catalog never counts as new.
+  function showNew() {
+    const first = courses.map((c) => c.added).filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d)).sort()[0];
+    const weekAgo = new Date(Date.now() - 7 * 864e5).toISOString().slice(0, 10);
+    const fresh = courses.filter((c) => first && c.added > first && c.added >= weekAgo).slice(0, 5);
+    if (!fresh.length) return;
+    $("new-list").replaceChildren(SITE.el("div", { class: "course-list" }, fresh.map((c, i) => TRAININGS.courseRow(c, i))));
+    $("new").hidden = false;
+  }
+
   TRAININGS.initPicker($("role"), $("industry"), state, update);
 
   SITE.loadTrainings()
-    .then((c) => { courses = c; $("t-status").textContent = ""; update(); })
+    .then((c) => { courses = c; $("t-status").textContent = ""; update(); showNew(); })
     .catch((err) => SITE.showError($("t-status"), "the course list", err));
 
   SITE.loadStories()
