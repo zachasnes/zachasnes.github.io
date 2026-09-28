@@ -10,6 +10,34 @@ const TRAININGS = (() => {
     return [c.provider, c.level, formatHours(c.hours)].filter(Boolean).join("  ·  ");
   }
 
+  // "Before you start" line. "None" becomes a friendlier "No experience needed".
+  function prereqText(c) {
+    const p = (c.prereqs || "").trim();
+    if (!p) return "";
+    if (/^none\b/i.test(p)) return "No experience needed" + (/account/i.test(p) ? " · free account" : "");
+    return "Before you start: " + p;
+  }
+
+  // Only show a review date from the last 45 days. An old date would suggest a check
+  // that isn't happening, so it's hidden instead.
+  function checkedText(c) {
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(c.checked || "");
+    if (!m) return "";
+    const d = new Date(+m[1], +m[2] - 1, +m[3]);
+    if (Date.now() - d.getTime() > 45 * 864e5) return "";
+    return "Free as of " + d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+  }
+
+  // Outcome + prerequisites + review date, shared by both card styles.
+  function courseDetails(c, cls) {
+    const outcome = (c.outcome || "").trim();
+    const small = [prereqText(c), checkedText(c)].filter(Boolean).join("  ·  ");
+    return [
+      outcome ? el("p", { class: cls + "-outcome" }, "You'll be able to " + outcome.charAt(0).toLowerCase() + outcome.slice(1).replace(/\.?$/, ".")) : null,
+      small ? el("p", { class: "mono " + cls + "-fine" }, small) : null,
+    ];
+  }
+
   function courseTags(c) {
     return [...c.roles.filter((r) => r !== BASICS), ...c.industries].slice(0, 4)
       .map((t) => el("span", { class: "tag" }, t));
@@ -22,6 +50,7 @@ const TRAININGS = (() => {
         el("p", { class: "mono eyebrow" }, eyebrow),
         el("h3", {}, c.title),
         el("p", {}, c.description),
+        courseDetails(c, "top"),
         el("p", { class: "mono meta" }, courseMeta(c) + "  ·  Free")),
       el("span", { class: "go", "aria-hidden": "true" }, "↗"));
   }
@@ -35,6 +64,7 @@ const TRAININGS = (() => {
         step ? el("div", { class: "mono step" }, "Step " + step) : null,
         el("div", { class: "course-name" }, c.title, " ↗"),
         el("div", { class: "course-desc" }, c.description),
+        courseDetails(c, "course"),
         el("div", { class: "mono course-meta" }, courseMeta(c))),
       el("div", { class: "tags" }, courseTags(c)));
   }

@@ -14,6 +14,7 @@ const SITE = (() => {
   const ROLES = [
     "Everyone / AI Basics", "Sales", "Marketing", "Finance & Accounting",
     "Operations & Supply Chain", "Product", "Consulting & Strategy", "HR & People",
+    "Small Business & Office",
   ];
   const INDUSTRIES = [
     "Telecom", "Healthcare", "Energy", "Financial Services", "Tech",
@@ -71,9 +72,12 @@ const SITE = (() => {
         id: r.id, title: r.title, provider: r.provider, url: safeUrl(r.url),
         description: r.description, level: r.level,
         hours: isNaN(hours) ? null : hours,
-        roles: splitList(r.roles), industries: splitList(r.industries),
+        // extra_roles: audiences only this site shows (the TEMBA site ignores the column).
+        roles: [...new Set([...splitList(r.roles), ...splitList(r.extra_roles)])],
+        industries: splitList(r.industries),
         tasks: splitList(r.tasks), topPickFor: splitList(r.top_pick_for),
-        added: r.date_added,
+        added: r.date_added, checked: r.last_checked,
+        prereqs: r.prereqs, outcome: r.outcome,
       };
     }).filter((c) => c.title && c.url);
     if (!courses.length) throw new Error("Trainings sheet loaded but had no courses");
@@ -104,6 +108,7 @@ const SITE = (() => {
     "Product": "google-agentic-strategy",
     "Consulting & Strategy": "openai-ai-leadership",
     "HR & People": "aws-genai-ready-organization",
+    "Small Business & Office": "anthropic-ai-fluency-small-business",
     "Healthcare": "google-genai-healthcare",
     "Energy": "trailhead-agentforce-energy-utilities",
     "Financial Services": "trailhead-agentforce-financial-services",
