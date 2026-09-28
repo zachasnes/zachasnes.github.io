@@ -28,14 +28,19 @@ const TRAININGS = (() => {
     return "Free as of " + d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
   }
 
-  // Outcome + prerequisites + review date, shared by both card styles.
-  function courseDetails(c, cls) {
+  // "You'll walk away able to" callout, shown right under the title so the payoff reads first.
+  function courseOutcome(c) {
     const outcome = (c.outcome || "").trim();
+    if (!outcome) return null;
+    return el("div", { class: "outcome" },
+      el("div", { class: "outcome-label" }, "You'll walk away able to"),
+      el("div", { class: "outcome-text" }, outcome.replace(/\.?$/, ".")));
+  }
+
+  // Prerequisites + review date, shared by both card styles.
+  function courseFine(c, cls) {
     const small = [prereqText(c), checkedText(c)].filter(Boolean).join("  ·  ");
-    return [
-      outcome ? el("p", { class: cls + "-outcome" }, "You'll be able to " + outcome.charAt(0).toLowerCase() + outcome.slice(1).replace(/\.?$/, ".")) : null,
-      small ? el("p", { class: "mono " + cls + "-fine" }, small) : null,
-    ];
+    return small ? el("p", { class: "mono " + cls + "-fine" }, small) : null;
   }
 
   function courseTags(c) {
@@ -49,8 +54,9 @@ const TRAININGS = (() => {
       el("div", {},
         el("p", { class: "mono eyebrow" }, eyebrow),
         el("h3", {}, c.title),
+        courseOutcome(c),
         el("p", {}, c.description),
-        courseDetails(c, "top"),
+        courseFine(c, "top"),
         el("p", { class: "mono meta" }, courseMeta(c) + "  ·  Free")),
       el("span", { class: "go", "aria-hidden": "true" }, "↗"));
   }
@@ -63,8 +69,9 @@ const TRAININGS = (() => {
       el("div", {},
         step ? el("div", { class: "mono step" }, "Step " + step) : null,
         el("div", { class: "course-name" }, c.title, " ↗"),
+        courseOutcome(c),
         el("div", { class: "course-desc" }, c.description),
-        courseDetails(c, "course"),
+        courseFine(c, "course"),
         el("div", { class: "mono course-meta" }, courseMeta(c))),
       el("div", { class: "tags" }, courseTags(c)));
   }
